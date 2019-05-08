@@ -29,8 +29,8 @@ This README
 =====
 This readme is a sloppy copy and paste job from the READMEs of the two packages I combined. So I have also included their own README files, since they are very informative.
 
-[django-pwa](https://github.com/avryhof/django-pwa-webpush/DJANGO-PWA-README.md)
-[django-webpush](https://github.com/avryhof/django-pwa-webpush/DJANGO-WEBPUSH-README.md)
+. [django-pwa](https://github.com/avryhof/django-pwa-webpush/DJANGO-PWA-README.md)
+. [django-webpush](https://github.com/avryhof/django-pwa-webpush/DJANGO-WEBPUSH-README.md)
 
 
 Requirements
