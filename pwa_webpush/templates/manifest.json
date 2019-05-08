@@ -1,4 +1,4 @@
-{% load pwa %}
+{% load pwa_webpush %}
 {
   "name": {{ PWA_APP_NAME|js }},
   "short_name": {{ PWA_APP_NAME|js }},

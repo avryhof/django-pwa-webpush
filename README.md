@@ -111,7 +111,7 @@ Add PWA Information to your template.
 -------------------
 Inject the required meta tags in your base.html (or wherever your HTML &lt;head&gt; is defined):
 ```html
-{% load pwa %}
+{% load pwa_webpush %}
 
 <head>
     ...
