@@ -4,7 +4,7 @@ from django import template
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.safestring import mark_safe
 
-from pwa_webpush.utils import get_templatetag_context
+from ..utils import get_templatetag_context
 from .. import app_settings
 
 register = template.Library()
