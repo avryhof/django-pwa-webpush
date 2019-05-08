@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import admin
+from django.utils import timezone
 
 from pwa_webpush import send_user_notification
 from .models import PushInformation, PushMessage

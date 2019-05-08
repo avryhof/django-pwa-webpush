@@ -4,6 +4,8 @@ from django.conf import settings
 
 from django.db.models import DO_NOTHING
 
+from .app_settings import PWA_APP_NAME
+
 
 class Group(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -35,7 +37,7 @@ class PushInformation(models.Model):
 class PushMessage(models.Model):
     active = models.BooleanField(default=True)
     send_on = models.DateTimeField(auto_now_add=True, null=True)
-    title = models.CharField(max_length=200, null=False, default='Message from ProAct Rx.')
+    title = models.CharField(max_length=200, null=False, default='Message from %s.' % PWA_APP_NAME)
     message = models.TextField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
     icon = models.URLField(blank=True, null=True)
