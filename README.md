@@ -1,5 +1,5 @@
-﻿[![Build Status](https://travis-ci.org/avryhof/django-pwa-webpush.svg)](https://travis-ci.org/avryhof/django-pwa-webpush)
-[![Maintainability](https://api.codeclimate.com/v1/badges/246542ea921058c4f76f/maintainability)](https://codeclimate.com/github/avryhof/django-pwa-webpush/maintainability)
+[![Build Status](https://travis-ci.org/avryhof/django-pwa-webpush.svg)](https://travis-ci.org/avryhof/django-pwa-webpush)
+[![CodeFactor](https://www.codefactor.io/repository/github/avryhof/django-pwa-webpush/badge)](https://www.codefactor.io/repository/github/avryhof/django-pwa-webpush)
 [![codecov](https://codecov.io/gh/avryhof/django-pwa-webpush/branch/master/graph/badge.svg)](https://codecov.io/gh/avryhof/django-pwa-webpush)
 [![PyPI - Downloads](https://img.shields.io/pypi/v/django-pwa-webpush.svg)](https://pypi.org/project/django-pwa-webpush)
 [![PyPI - Downloads](https://img.shields.io/pypi/djversions/django-pwa-webpush.svg)](https://pypi.org/project/django-pwa-webpush)
