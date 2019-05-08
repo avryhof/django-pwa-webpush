@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+include DJANGO-PWA-README.md
+include DJANGO-WEBPUSH-README.md
+recursive-include pwa_webpush/static *
+recursive-include pwa_webpush/templates *
