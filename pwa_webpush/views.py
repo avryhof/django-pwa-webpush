@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -11,11 +12,26 @@ from . import app_settings
 
 
 def manifest(request):
-    return render(request, 'manifest.json', {
+    context = {
         setting_name: getattr(app_settings, setting_name)
         for setting_name in dir(app_settings)
         if setting_name.startswith('PWA_')
-    })
+    }
+
+    try:
+        site = Site.objects.get_current(request)
+    except Site.DoesNotExist:
+        pass
+    else:
+        domain = "%s://%s" % (request.scheme, site.domain)
+
+        if request.scheme not in context.get("PWA_APP_START_URL"):
+            context['PWA_APP_START_URL'] = "%s%s" % (domain, context.get("PWA_APP_START_URL"))
+
+        if request.scheme not in context.get("PWA_APP_SCOPE"):
+            context['PWA_APP_SCOPE'] = "%s%s" % (domain, context.get("PWA_APP_SCOPE"))
+
+    return render(request, 'manifest.json', context)
 
 
 def offline(request):
