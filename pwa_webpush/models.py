@@ -56,7 +56,7 @@ class PushMessage(models.Model):
     message = models.TextField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
     icon = models.URLField(blank=True, null=True)
-    send_to = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=DO_NOTHING)
+    send_to = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
     sent = models.BooleanField(default=False)
 
     def __str__(self):
