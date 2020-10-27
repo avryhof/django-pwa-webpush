@@ -13,7 +13,7 @@ install_requirements = [
 
 setup(
     name='django-pwa-webpush',
-    version='1.1.0',
+    version='1.1.1',
     packages=find_packages(),
     include_package_data=True,
     license='GNU Public License',
