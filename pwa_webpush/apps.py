@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class PwaConfig(AppConfig):
-    name = 'pwa_webpush'
+    name = "pwa_webpush"

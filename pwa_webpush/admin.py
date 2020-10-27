@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 from pwa_webpush import send_user_notification
+from .custom_site_class import CustomSite
 from .models import PushInformation, PushMessage
 from .utils import _send_notification
 
@@ -23,14 +24,15 @@ class PushInfoAdmin(admin.ModelAdmin):
 @admin.register(PushMessage)
 class PwaPushMessageAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
+        site = CustomSite(request)
         obj.save()
 
         if not obj.sent and obj.active and obj.send_on <= timezone.now():
             payload = {
-                'head': obj.title,
-                'body': obj.message,
-                'icon': 'https://proactrx.local:8000/static/pwa/icons/apple-icon-72x72.png' if not obj.icon else obj.icon,
-                'url': 'https://proactrx.local:8000/m/' if not obj.url else obj.url
+                "head": obj.title,
+                "body": obj.message,
+                "icon": site.get_external_url("/static/pwa/icons/apple-icon-72x72.png") if not obj.icon else obj.icon,
+                "url": site.get_external_url("/m/") if not obj.url else obj.url,
             }
 
             if not obj.send_to:
@@ -45,11 +47,11 @@ class PwaPushMessageAdmin(admin.ModelAdmin):
                 obj.save()
 
     list_display = (
-        u'active',
-        u'send_on',
-        u'title',
-        u'message',
-        u'url',
-        u'icon',
+        u"active",
+        u"send_on",
+        u"title",
+        u"message",
+        u"url",
+        u"icon",
     )
-    list_filter = (u'active', u'send_on')
+    list_filter = (u"active", u"send_on")

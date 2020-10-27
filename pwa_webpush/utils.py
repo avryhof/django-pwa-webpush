@@ -23,6 +23,7 @@ def send_notification_to_user(user, payload, ttl=0):
 
 def send_notification_to_group(group_name, payload, ttl=0):
     from .models import Group
+
     # Get all the subscription related to the group
 
     errors = []
@@ -46,16 +47,16 @@ def _send_notification(subscription, payload, ttl):
     subscription_data = _process_subscription_info(subscription)
     vapid_data = {}
 
-    webpush_settings = getattr(settings, 'WEBPUSH_SETTINGS', {})
-    vapid_private_key = webpush_settings.get('VAPID_PRIVATE_KEY')
-    vapid_admin_email = webpush_settings.get('VAPID_ADMIN_EMAIL')
+    webpush_settings = getattr(settings, "WEBPUSH_SETTINGS", {})
+    vapid_private_key = webpush_settings.get("VAPID_PRIVATE_KEY")
+    vapid_admin_email = webpush_settings.get("VAPID_ADMIN_EMAIL")
 
     # Vapid keys are optional, and mandatory only for Chrome.
     # If Vapid key is provided, include vapid key and claims
     if vapid_private_key:
         vapid_data = {
-            'vapid_private_key': vapid_private_key,
-            'vapid_claims': {"sub": "mailto:{}".format(vapid_admin_email)}
+            "vapid_private_key": vapid_private_key,
+            "vapid_claims": {"sub": "mailto:{}".format(vapid_admin_email)},
         }
 
     req = webpush(subscription_info=subscription_data, data=payload, ttl=ttl, **vapid_data)
@@ -68,20 +69,18 @@ def _process_subscription_info(subscription):
     p256dh = subscription_data.pop("p256dh")
     auth = subscription_data.pop("auth")
 
-    return {
-        "endpoint": endpoint,
-        "keys": {"p256dh": p256dh, "auth": auth}
-    }
+    return {"endpoint": endpoint, "keys": {"p256dh": p256dh, "auth": auth}}
 
 
 def get_templatetag_context(context):
-    request = context['request']
-    vapid_public_key = getattr(settings, 'WEBPUSH_SETTINGS', {}).get('VAPID_PUBLIC_KEY', '')
+    request = context["request"]
+    vapid_public_key = getattr(settings, "WEBPUSH_SETTINGS", {}).get("VAPID_PUBLIC_KEY", "")
 
-    data = {'group': context.get('webpush', {}).get('group'),
-            'user': getattr(request, 'user', None),
-            'vapid_public_key': vapid_public_key,
-            'webpush_save_url': reverse('save_webpush_info')
-            }
+    data = {
+        "group": context.get("webpush", {}).get("group"),
+        "user": getattr(request, "user", None),
+        "vapid_public_key": vapid_public_key,
+        "webpush_save_url": reverse("save_webpush_info"),
+    }
 
     return data

@@ -1,6 +1,5 @@
 import json
 
-from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -9,29 +8,25 @@ from django.views.generic import TemplateView
 
 from pwa_webpush.forms import SubscriptionForm, WebPushForm
 from . import app_settings
+from .custom_site_class import CustomSite
 
 
 def manifest(request):
     context = {
         setting_name: getattr(app_settings, setting_name)
         for setting_name in dir(app_settings)
-        if setting_name.startswith('PWA_')
+        if setting_name.startswith("PWA_")
     }
 
-    try:
-        site = Site.objects.get_current(request)
-    except Site.DoesNotExist:
-        pass
-    else:
-        domain = "%s://%s" % (request.scheme, site.domain)
+    site = CustomSite(request)
 
-        if request.scheme not in context.get("PWA_APP_START_URL"):
-            context['PWA_APP_START_URL'] = "%s%s" % (domain, context.get("PWA_APP_START_URL"))
+    if request.scheme not in context.get("PWA_APP_START_URL"):
+        context["PWA_APP_START_URL"] = site.get_external_url(context.get("PWA_APP_START_URL"))
 
-        if request.scheme not in context.get("PWA_APP_SCOPE"):
-            context['PWA_APP_SCOPE'] = "%s%s" % (domain, context.get("PWA_APP_SCOPE"))
+    if request.scheme not in context.get("PWA_APP_SCOPE"):
+        context["PWA_APP_SCOPE"] = site.get_external_url(context.get("PWA_APP_SCOPE"))
 
-    return render(request, 'manifest.json', context)
+    return render(request, "manifest.json", context)
 
 
 def offline(request):
@@ -55,7 +50,7 @@ def process_subscription_data(post_data):
 def save_info(request):
     # Parse the  json object from post data. return 400 if the json encoding is wrong
     try:
-        post_data = json.loads(request.body.decode('utf-8'))
+        post_data = json.loads(request.body.decode("utf-8"))
     except ValueError:
         return HttpResponse(status=400)
 
@@ -78,11 +73,11 @@ def save_info(request):
             # as the subscription data is a dictionary and its valid
             subscription = subscription_form.get_or_save()
             web_push_form.save_or_delete(
-                subscription=subscription, user=request.user,
-                status_type=status_type, group_name=group_name)
+                subscription=subscription, user=request.user, status_type=status_type, group_name=group_name
+            )
 
             # If subscribe is made, means object is created. So return 201
-            if status_type == 'subscribe':
+            if status_type == "subscribe":
                 return HttpResponse(status=201)
             # Unsubscribe is made, means object is deleted. So return 202
             elif "unsubscribe":
@@ -97,5 +92,5 @@ class ServiceWorkerView(TemplateView):
     Therefore, use TemplateView in order to server the webpush_serviceworker.js
     """
 
-    template_name = 'serviceworker.js'
-    content_type = 'application/javascript'
+    template_name = "serviceworker.js"
+    content_type = "application/javascript"

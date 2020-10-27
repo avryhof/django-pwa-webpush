@@ -1,2 +1,3 @@
 django
 pywebpush
+six
