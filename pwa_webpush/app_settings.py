@@ -1,7 +1,6 @@
 """ Settings required by django-app. """
-import os
-
 from django.conf import settings
+import os
 
 # Path to the service worker implementation.  Default implementation is empty.
 PWA_SERVICE_WORKER_PATH = getattr(

@@ -9,12 +9,11 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 install_requirements = [
     "django>=1.8",
-    "six",
 ]
 
 setup(
     name='django-pwa-webpush',
-    version='1.1.2',
+    version='1.1.3',
     packages=find_packages(),
     include_package_data=True,
     license='GNU Public License',
@@ -39,6 +38,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        'pywebpush==1.6.0'
+        'pywebpush>=1.6.0'
     ]
 )
