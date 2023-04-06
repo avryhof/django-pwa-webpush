@@ -23,7 +23,6 @@ def send_notification_to_user(user, payload, ttl=0):
 
 def send_notification_to_group(group_name, payload, ttl=0):
     from .models import Group
-
     # Get all the subscription related to the group
 
     errors = []
@@ -59,8 +58,19 @@ def _send_notification(subscription, payload, ttl):
             "vapid_claims": {"sub": "mailto:{}".format(vapid_admin_email)},
         }
 
-    req = webpush(subscription_info=subscription_data, data=payload, ttl=ttl, **vapid_data)
-    return req
+    try:
+        req = webpush(subscription_info=subscription_data, data=payload, ttl=ttl, **vapid_data)
+
+    except WebPushException as e:
+        # If the subscription is expired, delete it.
+        if e.response.status_code == 410:
+            subscription.delete()
+        else:
+            # Its other type of exception!
+            raise e
+
+    else:
+        return req
 
 
 def _process_subscription_info(subscription):

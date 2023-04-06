@@ -1,3 +1,5 @@
+arrow
 django
+markupsafe
 pywebpush
 six
