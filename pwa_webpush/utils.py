@@ -18,7 +18,7 @@ def send_notification_to_user(user, payload, ttl=0):
             errors.append(dict(subscription=push_info.subscription, exception=ex))
 
     if errors:
-        raise WebPushException("Push failed.")
+        raise WebPushException(f"Push failed: {errors}")
 
 
 def send_notification_to_group(group_name, payload, ttl=0):
@@ -35,7 +35,7 @@ def send_notification_to_group(group_name, payload, ttl=0):
             errors.append(dict(subscription=push_info.subscription, exception=ex))
 
     if errors:
-        raise WebPushException("Push failed.")
+        raise WebPushException(f"Push failed: {errors}")
 
 
 def send_to_subscription(subscription, payload, ttl=0):
